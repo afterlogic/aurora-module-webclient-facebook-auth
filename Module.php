@@ -24,7 +24,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
         'OAuthIntegratorWebclient',
         'Facebook'
     );
-    
+
     /**
      *
      * @return Module
@@ -106,7 +106,7 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
     {
         $oUser = \Aurora\System\Api::getAuthenticatedUser();
 
-        if (!$oUser) {
+        if ($oUser) {
             $aScope = array(
                 'Name' => 'auth',
                 'Description' => $this->i18N('SCOPE_AUTH'),
