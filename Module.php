@@ -28,7 +28,14 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
     );
 
     /**
-     *
+     * @return Module
+     */
+    public static function getInstance()
+    {
+        return parent::getInstance();
+    }
+
+    /**
      * @return Module
      */
     public static function Decorator()
@@ -37,7 +44,6 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
     }
 
     /**
-     *
      * @return Settings
      */
     public function getModuleSettings()
@@ -73,11 +79,11 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
      */
     public function onAfterGetServices($aArgs, &$aServices)
     {
-        $oModule = \Aurora\System\Api::GetModule('Facebook');
-        $sId = $oModule->getConfig('Id', '');
-        $sSecret = $oModule->getConfig('Secret', '');
+        $oModule = \Aurora\Modules\Facebook\Module::getInstance();
+        $sId = $oModule->oModuleSettings->Id;
+        $sSecret = $oModule->oModuleSettings->Secret;
 
-        if ($oModule->getConfig('EnableModule', false) && $this->issetScope('auth') && !empty($sId) && !empty($sSecret)) {
+        if ($oModule->oModuleSettings->EnableModule && $this->issetScope('auth') && !empty($sId) && !empty($sSecret)) {
             $aServices[] = $this->sService;
         }
     }
@@ -95,10 +101,11 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
             $sScopes = isset($_COOKIE['oauth-scopes']) ? $_COOKIE['oauth-scopes'] : '';
             $mResult = false;
             $oConnector = new Classes\Connector($this);
+            $oFacebookModule = \Aurora\Modules\Facebook\Module::getInstance();
             if ($oConnector) {
                 $mResult = $oConnector->Init(
-                    \Aurora\System\Api::GetModule('Facebook')->getConfig('Id'),
-                    \Aurora\System\Api::GetModule('Facebook')->getConfig('Secret'),
+                    $oFacebookModule->oModuleSettings->Id,
+                    $oFacebookModule->oModuleSettings->Secret,
                     $sScopes
                 );
             }
