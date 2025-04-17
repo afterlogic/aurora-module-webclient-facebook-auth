@@ -97,15 +97,15 @@ class Module extends \Aurora\System\Module\AbstractWebclientModule
     */
     public function onAfterGetServiceTypes($aArgs, &$aServices)
     {
-            $oModule = \Aurora\Modules\Facebook\Module::getInstance();
-            if ($oModule) {
-                $sId = $oModule->oModuleSettings->Id;
-                $sSecret = $oModule->oModuleSettings->Secret;
+        $oModule = \Aurora\Modules\Facebook\Module::getInstance();
+        if ($oModule) {
+            $sId = $oModule->oModuleSettings->Id;
+            $sSecret = $oModule->oModuleSettings->Secret;
 
-                if ($oModule->oModuleSettings->EnableModule && !empty($sId) && !empty($sSecret)) {
-                    $aServices[] = $this->sService;
-                }
+            if ($oModule->oModuleSettings->EnableModule && !empty($sId) && !empty($sSecret)) {
+                $aServices[] = $this->sService;
             }
+        }
     }
 
     /**
